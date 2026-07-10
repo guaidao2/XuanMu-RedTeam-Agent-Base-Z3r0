@@ -23,7 +23,7 @@ jiter==0.15.0
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
 mcp==1.27.1
-openai==1.54.5
+openai
 openai-agents==0.17.4
 pycparser==3.0
 pydantic==2.13.4

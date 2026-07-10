@@ -139,7 +139,7 @@ source "$VENV_DIR/bin/activate"
 info "安装 Python 依赖（阿里云镜像）..."
 pip install -i https://mirrors.aliyun.com/pypi/simple/ --upgrade pip -q 2>&1 | tail -1
 pip install -i https://mirrors.aliyun.com/pypi/simple/ \
-    asyncpg sqlmodel 'openai==1.54.5' mcp tiktoken sse-starlette python-multipart \
+    asyncpg sqlmodel openai mcp tiktoken sse-starlette python-multipart \
     pyjwt pyyaml httpx httpx-sse docker fastapi uvicorn websockets \
     pydantic-settings pydantic annotated-types anyio certifi charset-normalizer \
     click cryptography distro greenlet h11 httpcore idna jiter jsonschema \

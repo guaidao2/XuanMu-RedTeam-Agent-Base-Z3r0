@@ -10,6 +10,14 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from config import ROOT_PATH, get_config
 
+# ── 兼容补丁：新版 openai InputTokensDetails 字段变更 ──
+try:
+    from agents import usage as _agents_usage
+    import openai.types.completion_usage as _openai_usage
+    _agents_usage.InputTokensDetails = _openai_usage.InputTokensDetails
+except Exception:
+    pass
+
 from core.delegation.subagents import start_subagent_runtime, stop_subagent_runtime
 from core.runtime.session import get_agent_pool
 from database import close_engine, create_all_tables, init_engine
