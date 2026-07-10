@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 # 但 openai-agents SDK 还在用 cached_tokens=0，导致 pydantic 校验失败。
 # 这里通过继承将 cache_write_tokens 设为可选（默认 0），让 SDK 的 lambda 能正常创建。
 try:
-    import openai.types.completion_usage as _ocu
+    import openai.types.responses.response_usage as _ocu
     class _PatchedInputTokensDetails(_ocu.InputTokensDetails):
         cache_write_tokens: int = 0
     _ocu.InputTokensDetails = _PatchedInputTokensDetails
