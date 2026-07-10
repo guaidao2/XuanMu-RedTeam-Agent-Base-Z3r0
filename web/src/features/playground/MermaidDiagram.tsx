@@ -41,14 +41,8 @@ export const MermaidDiagram = memo(function MermaidDiagram({ source }: { source:
   }, [renderId, source]);
 
   if (result && "error" in result) {
-    return (
-      <div className="mermaid-diagram mermaid-diagram-error" title={result.error}>
-        <div className="mermaid-error-label">Mermaid render failed</div>
-        <pre>
-          <code className="language-mermaid">{source}</code>
-        </pre>
-      </div>
-    );
+    // Mermaid 语法错误无实际影响，静默隐藏
+    return null;
   }
 
   return (
