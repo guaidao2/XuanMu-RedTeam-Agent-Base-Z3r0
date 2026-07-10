@@ -1,6 +1,18 @@
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
+# ── 兼容补丁：必须在 agents 导入之前执行 ──
+# 新版 openai 把 InputTokensDetails.cached_tokens 改成了 cache_write_tokens（必填），
+# 但 openai-agents SDK 还在用 cached_tokens=0，导致 pydantic 校验失败。
+# 这里通过继承将 cache_write_tokens 设为可选（默认 0），让 SDK 的 lambda 能正常创建。
+try:
+    import openai.types.completion_usage as _ocu
+    class _PatchedInputTokensDetails(_ocu.InputTokensDetails):
+        cache_write_tokens: int = 0
+    _ocu.InputTokensDetails = _PatchedInputTokensDetails
+except Exception:
+    pass
+
 from agents import set_tracing_disabled
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
@@ -9,14 +21,6 @@ from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from config import ROOT_PATH, get_config
-
-# ── 兼容补丁：新版 openai InputTokensDetails 字段变更 ──
-try:
-    from agents import usage as _agents_usage
-    import openai.types.completion_usage as _openai_usage
-    _agents_usage.InputTokensDetails = _openai_usage.InputTokensDetails
-except Exception:
-    pass
 
 from core.delegation.subagents import start_subagent_runtime, stop_subagent_runtime
 from core.runtime.session import get_agent_pool
