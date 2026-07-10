@@ -1,0 +1,49 @@
+services:
+  app:
+    image: z3r0:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: z3r0-app
+    restart: always
+    network_mode: host
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./.xuanmu:/app/.xuanmu
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: z3r0-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: z3r0
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d z3r0"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: z3r0-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: me@yvling.cn
+      PGADMIN_DEFAULT_PASSWORD: 123456
+      PGADMIN_LISTEN_PORT: 5433
+    ports:
+      - 5433:5433
+    volumes:
+      - ./.pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy

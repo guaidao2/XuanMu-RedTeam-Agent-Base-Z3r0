@@ -1,0 +1,158 @@
+.subagent-side-panel {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(18px);
+  pointer-events: none;
+  transition:
+    opacity var(--motion-normal) var(--ease-standard),
+    transform var(--motion-slow) var(--ease-emphasized);
+  will-change: opacity, transform;
+}
+
+.subagent-side-panel-open {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.subagent-side-panel-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--z-surface-strong);
+  border-left: 1px solid var(--z-line);
+  box-shadow: -18px 0 36px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(14px);
+}
+
+.subagent-side-header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--z-line);
+}
+
+.subagent-side-heading {
+  display: inline-flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  max-width: 38%;
+  color: var(--z-text-strong);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.subagent-side-heading span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subagent-side-tabs {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 6px;
+  min-width: 0;
+  padding: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.subagent-side-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.subagent-tab {
+  display: inline-grid;
+  grid-template-columns: minmax(48px, max-content) max-content;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  max-width: 150px;
+  min-height: 28px;
+  padding: 3px 8px;
+  background: var(--z-surface-muted);
+  border: 1px solid var(--z-line);
+  border-radius: 8px;
+  color: var(--z-text-subtle);
+  cursor: pointer;
+  font-size: 12px;
+  transition:
+    background var(--motion-fast) var(--ease-standard),
+    border-color var(--motion-fast) var(--ease-standard),
+    color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-fast) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
+}
+
+.subagent-tab:hover {
+  background: var(--z-control-bg-hover);
+  color: var(--z-text-strong);
+  transform: translateY(-1px);
+}
+
+.subagent-tab-active {
+  background: var(--z-surface-soft);
+  border-color: var(--z-line-strong);
+  color: var(--z-text-strong);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
+}
+
+.subagent-tab-name {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subagent-side-body {
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  padding: 16px 16px 170px;
+}
+
+.subagent-side-body-shell .message-scroll-viewport {
+  scroll-padding-bottom: 170px;
+}
+
+.subagent-scroll-tail-floating {
+  right: 16px;
+  bottom: 142px;
+}
+
+.subagent-task-view,
+.subagent-transcript-view {
+  display: grid;
+  gap: 12px;
+  min-height: 0;
+  padding-bottom: 18px;
+  animation: contentFadeUp 220ms var(--ease-emphasized) both;
+}
+
+.subagent-task-meta {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  color: var(--z-text-subtle);
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+.subagent-task-meta span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

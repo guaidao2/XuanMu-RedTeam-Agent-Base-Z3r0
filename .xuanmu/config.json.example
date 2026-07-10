@@ -1,0 +1,105 @@
+{
+    "system": {
+        "listen_addr": "0.0.0.0",
+        "listen_port": 8000,
+        "encrypt_key": "replace-with-at-least-32-random-characters",
+        "bootstrap_admin": {
+            "enabled": true,
+            "username": "admin",
+            "email": "admin@z3r0.fans",
+            "password": "replace-with-a-strong-password"
+        }
+    },
+    "database": {
+        "host": "127.0.0.1",
+        "port": 5432,
+        "database": "z3r0",
+        "username": "root",
+        "password": "123456",
+        "pool_size": 32,
+        "max_overflow": 32,
+        "pool_timeout_seconds": 30,
+        "pool_recycle_seconds": 1800,
+        "pool_pre_ping": true
+    },
+    "agent_runtime": {
+        "main_max_turns": 1000,
+        "subordinate_max_turns": 1000,
+        "model_stream_idle_timeout_seconds": 300,
+        "context_compression_enabled": true,
+        "context_compression_trigger_ratio": 0.95,
+        "context_compression_hard_stop_ratio": 0.98,
+        "context_compression_target_ratio": 0.20,
+        "context_compression_preserve_recent_ratio": 0.25,
+        "context_compression_preserve_recent_items": 20,
+        "context_compression_min_items": 12,
+        "context_compression_summary_max_tokens": 8000
+    },
+    "agent_pool": {
+        "max_size": 256,
+        "ttl_seconds": 1800,
+        "sweep_interval_seconds": 60
+    },
+    "agents": {
+        "cso": {
+            "code": "cso",
+            "name": "Z3r0",
+            "description": "Chief Security Officer",
+            "base_url": "https://api.openai.com/v1",
+            "api_key": "sk-3844...",
+            "model": "gpt-5.5",
+            "use_responses": false,
+            "context_window": 1000000
+        },
+        "cae": {
+            "code": "cae",
+            "name": "V3ra",
+            "description": "Chief Audit Engineer",
+            "base_url": "https://api.openai.com/v1",
+            "api_key": "sk-3844...",
+            "model": "gpt-5.5",
+            "use_responses": false,
+            "context_window": 1000000
+        },
+        "cce": {
+            "code": "cce",
+            "name": "Nu1L",
+            "description": "Chief Cryptography Engineer",
+            "base_url": "https://api.openai.com/v1",
+            "api_key": "sk-3844...",
+            "model": "gpt-5.5",
+            "use_responses": false,
+            "context_window": 1000000
+        },
+        "cie": {
+            "code": "cie",
+            "name": "L1ly",
+            "description": "Chief Intelligence Engineer",
+            "base_url": "https://api.openai.com/v1",
+            "api_key": "sk-3844...",
+            "model": "gpt-5.5",
+            "use_responses": false,
+            "context_window": 1000000
+        },
+        "cpe": {
+            "code": "cpe",
+            "name": "Fr4nk",
+            "description": "Chief Penetration Engineer",
+            "base_url": "https://api.openai.com/v1",
+            "api_key": "sk-3844...",
+            "model": "gpt-5.5",
+            "use_responses": false,
+            "context_window": 1000000
+        },
+        "cre": {
+            "code": "cre",
+            "name": "J4m3",
+            "description": "Chief Reverse Engineer",
+            "base_url": "https://api.openai.com/v1",
+            "api_key": "sk-3844...",
+            "model": "gpt-5.5",
+            "use_responses": false,
+            "context_window": 1000000
+        }
+    }
+}

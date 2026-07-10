@@ -1,0 +1,40 @@
+@media (max-width: 900px) {
+  .playground-shell {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .playground-canvas {
+    padding: 18px 18px 170px;
+  }
+
+  .chat-scroll-tail-floating {
+    right: 37px;
+    bottom: 142px;
+  }
+
+  .subagent-scroll-tail-floating {
+    right: 18px;
+    bottom: 142px;
+  }
+
+  .playground-composer {
+    padding: 18px;
+  }
+
+  .composer {
+    padding: 8px;
+    border-radius: 16px;
+  }
+
+  .playground-shell-split .playground-conversation-frame {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .subagent-side-panel {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: min(420px, 92vw);
+    z-index: 5;
+  }
+}

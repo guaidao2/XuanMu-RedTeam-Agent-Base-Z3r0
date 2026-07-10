@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e94560"/>
+      <stop offset="100%" style="stop-color:#0f3460"/>
+    </linearGradient>
+  </defs>
+  <!-- 背景圆 -->
+  <circle cx="500" cy="500" r="480" fill="url(#bg)" stroke="#e94560" stroke-width="8"/>
+  <!-- 盾牌 -->
+  <path d="M500 150 L750 300 L750 550 Q750 750 500 850 Q250 750 250 550 L250 300 Z" 
+        fill="none" stroke="url(#accent)" stroke-width="20" stroke-linejoin="round"/>
+  <!-- 盾牌中心线 -->
+  <line x1="500" y1="220" x2="500" y2="780" stroke="#e94560" stroke-width="6" opacity="0.4"/>
+  <!-- X 字母（左半） -->
+  <path d="M380 380 L450 500 L380 620" stroke="#e94560" stroke-width="36" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- X 字母（右半） -->
+  <path d="M620 380 L550 500 L620 620" stroke="#e94560" stroke-width="36" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- M 字母（弧形底部） -->
+  <path d="M440 620 L440 500 L500 560 L560 500 L560 620" 
+        stroke="#0f3460" stroke-width="28" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  <!-- 外圈光晕 -->
+  <circle cx="500" cy="500" r="480" fill="none" stroke="#e94560" stroke-width="2" opacity="0.3"/>
+  <circle cx="500" cy="500" r="460" fill="none" stroke="#e94560" stroke-width="1" opacity="0.15"/>
+</svg>

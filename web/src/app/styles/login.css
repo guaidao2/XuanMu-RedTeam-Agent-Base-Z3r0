@@ -1,0 +1,106 @@
+.login-page {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 28px;
+  color: var(--z-text);
+  background: var(--z-page-bg);
+}
+
+.login-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.24;
+  background-image:
+    linear-gradient(var(--z-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--z-grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: gridDrift 18s linear infinite;
+}
+
+.login-scanline {
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  background: linear-gradient(180deg, transparent, var(--z-scanline), transparent);
+  animation: scanline 9s ease-in-out infinite;
+}
+
+.login-panel {
+  position: relative;
+  width: min(100%, 430px);
+  padding: 34px;
+  background: var(--z-surface);
+  border: 1px solid var(--z-line);
+  border-radius: 8px;
+  box-shadow: var(--z-shadow);
+  backdrop-filter: blur(14px);
+  animation: contentScaleIn 360ms var(--ease-emphasized) both;
+}
+
+.login-brand {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 34px;
+  animation: contentFadeUp 420ms var(--ease-emphasized) both;
+}
+
+.login-brand h1 {
+  margin: 2px 0 0;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.login-kicker {
+  color: var(--z-accent);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.login-form {
+  display: grid;
+  gap: 18px;
+}
+
+.login-form label {
+  display: grid;
+  gap: 8px;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  animation: rowFadeIn 260ms var(--ease-emphasized) both;
+}
+
+.login-form label span {
+  color: inherit;
+}
+
+.login-credit {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-color-tertiary, rgba(255,255,255,0.35));
+}
+.login-credit a {
+  color: var(--text-color-tertiary, rgba(255,255,255,0.45));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.login-credit a:hover {
+  color: var(--accent-color, #e94560);
+}
+
+@media (max-width: 560px) {
+  .login-page {
+    padding: 16px;
+  }
+
+  .login-panel {
+    padding: 24px;
+  }
+}

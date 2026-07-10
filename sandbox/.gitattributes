@@ -1,0 +1,3 @@
+# Linux container entrypoints: CRLF breaks shebang (exec: no such file or directory)
+*.sh text eol=lf
+supervisord.conf text eol=lf

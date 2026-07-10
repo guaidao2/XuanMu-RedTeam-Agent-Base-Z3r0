@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "medium-zoom": "^1.1.0",
+    "mermaid": "^11.15.0",
+    "vitepress": "^2.0.0-alpha.17"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  }
+}

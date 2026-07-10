@@ -1,0 +1,100 @@
+.message-scroll-shell {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.message-scroll-viewport {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  transition: scrollbar-color var(--motion-normal) var(--ease-standard);
+}
+
+.message-scroll-content {
+  display: flex;
+  min-width: 0;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+.message-scroll-viewport-scrolling {
+  scrollbar-color: var(--z-scrollbar) transparent;
+}
+
+.message-scroll-viewport:focus {
+  outline: none;
+}
+
+.message-scroll-viewport:focus-visible {
+  outline: 1px solid var(--z-danger-border);
+  outline-offset: -2px;
+}
+
+.message-scroll-viewport::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.message-scroll-viewport-scrolling::-webkit-scrollbar-thumb {
+  background-color: var(--z-scrollbar);
+}
+
+.message-scroll-viewport-scrolling::-webkit-scrollbar-thumb:hover {
+  background-color: var(--z-scrollbar-hover);
+}
+
+.message-scroll-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  background: rgba(9, 13, 22, 0.42);
+}
+
+.message-scroll-tail-floating {
+  position: absolute;
+  z-index: 7;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 16px 36px rgba(31, 45, 61, 0.18);
+}
+
+.playground-canvas {
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  min-height: 100%;
+  min-width: 0;
+  padding: 28px 36px 170px;
+}
+
+.chat-scroll-tail-floating {
+  right: max(57px, calc((100% - 1192px) / 2 + 57px));
+  bottom: 142px;
+}
+
+.playground-canvas-shell .message-scroll-viewport {
+  scroll-padding-bottom: 170px;
+}
+
+.playground-conversation-frame {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 0;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  transition: grid-template-columns var(--motion-slow) var(--ease-emphasized);
+}
+
+.playground-shell-split .playground-conversation-frame {
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 38%);
+}
