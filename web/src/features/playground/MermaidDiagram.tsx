@@ -5,6 +5,7 @@ mermaid.initialize({
   startOnLoad: false,
   securityLevel: "strict",
   theme: "base",
+  suppressErrorRendering: true,
   themeVariables: {
     primaryColor: "#161f2e",
     primaryTextColor: "#f8fafc",
@@ -21,33 +22,18 @@ export const MermaidDiagram = memo(function MermaidDiagram({ source }: { source:
   const reactId = useId();
   const renderId = useMemo(() => `mermaid-${reactId.replace(/[^a-zA-Z0-9_-]/g, "")}`, [reactId]);
   const [result, setResult] = useState<{ svg: string } | { error: string } | null>(null);
-  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     setResult(null);
 
-    // 先检查是否是有效的 mermaid 代码（简单校验）
-    const trimmed = source.trim();
-    if (!trimmed || !/^(graph|flowchart|sequence|class|state|er|pie|gantt|journey|git|mindmap|timeline|block|packet|quadrant|requirement|architecture|sankey|xychart|c4|zenuml|sprite|kanban|other|gitgraph|ganttdiagram)/i.test(trimmed)) {
-      // 不是有效的 mermaid 语法，直接静默不渲染
-      setFailed(true);
-      return;
-    }
-
     mermaid
       .render(renderId, source)
       .then(({ svg }) => {
-        if (!cancelled) {
-          // mermaid v11 有时渲染成功但内容含错误信息，检查并过滤
-          if (svg.includes('mermaid-error') || svg.includes('Syntax error') || svg.includes('diagram-error')) {
-            return;
-          }
-          setResult({ svg });
-        }
+        if (!cancelled) setResult({ svg });
       })
-      .catch(() => {
-        if (!cancelled) setFailed(true);
+      .catch((error: unknown) => {
+        if (!cancelled) setResult({ error: error instanceof Error ? error.message : String(error) });
       });
 
     return () => {
@@ -55,12 +41,15 @@ export const MermaidDiagram = memo(function MermaidDiagram({ source }: { source:
     };
   }, [renderId, source]);
 
-  if (failed) {
-    return null;
-  }
-
   if (result && "error" in result) {
-    return null;
+    return (
+      <div className="mermaid-diagram mermaid-diagram-error" title={result.error}>
+        <div className="mermaid-error-label">Mermaid render failed</div>
+        <pre>
+          <code className="language-mermaid">{source}</code>
+        </pre>
+      </div>
+    );
   }
 
   return (
