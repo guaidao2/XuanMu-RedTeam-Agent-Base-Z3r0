@@ -178,6 +178,14 @@ vi .xuanmu/config.json
 Fill in LLM API keys, base URLs, and model names for each agent role.
 Example configuration uses DeepSeek — works with any OpenAI-compatible API.
 
+You can also use the interactive config tool:
+
+```bash
+bash config-tool.sh
+```
+
+It walks you through setting API keys, base URLs, and models for each agent without manually editing JSON.
+
 ### Start
 
 ```bash

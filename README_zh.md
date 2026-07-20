@@ -178,6 +178,14 @@ vi .xuanmu/config.json
 填入每个智能体角色的 API Key、接口地址和模型名。
 示例默认使用 DeepSeek —— 支持任何 OpenAI 兼容接口。
 
+也可以使用交互式配置工具：
+
+```bash
+bash config-tool.sh
+```
+
+它会一步步引导你设置每个智能体的 API Key、接口地址和模型，无需手动编辑 JSON。
+
 ### 启动
 
 ```bash
