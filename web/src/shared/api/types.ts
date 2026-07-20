@@ -181,6 +181,34 @@ export type CreateWorkProjectSessionResponse = JsonResponse<paths["/api/work-pro
 export type DeleteWorkProjectSessionResponse = JsonResponse<paths["/api/work-projects/{id}/sessions/{session_id}"]["delete"]>;
 export type GetWorkProjectRecordSnapshotResponse = JsonResponse<paths["/api/work-projects/{id}/record-snapshot"]["get"]>;
 
+// ── Blackboard (manual types, not from generated schema) ──
+export type BlackboardNodeType = "fact" | "intent" | "hint";
+export type BlackboardNodeStatus = "proposed" | "in_progress" | "confirmed" | "rejected" | "superseded";
+
+export interface BlackboardNode {
+  id: number;
+  project_id: number;
+  node_type: BlackboardNodeType;
+  status: BlackboardNodeStatus;
+  description: string;
+  parent_ids: string;
+  creator_agent_code: string;
+  session_id: string;
+  confidence: number;
+  extra: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BlackboardSnapshot {
+  project_id: number;
+  nodes: BlackboardNode[];
+  total_count: number;
+}
+
+export type GetBlackboardSnapshotResponse = { code: number; message: string; data?: BlackboardSnapshot | null };
+export type BlackboardProjectPathParams = { project_id: number };
+
 export type AgentSessionSummary = components["schemas"]["AgentSessionSummarySchema"];
 export type SessionType = components["schemas"]["SessionType"];
 

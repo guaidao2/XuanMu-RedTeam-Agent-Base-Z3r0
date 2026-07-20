@@ -120,3 +120,35 @@ function colorsFromEnum<T extends string>(
 function titleCase(value: string): string {
   return value.split("_").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(" ");
 }
+
+// ── Blackboard labels (manual, not from generated schema) ──
+export type BlackboardNodeType = "fact" | "intent" | "hint";
+export type BlackboardNodeStatus = "proposed" | "in_progress" | "confirmed" | "rejected" | "superseded";
+
+export const BLACKBOARD_NODE_TYPE_LABEL: Record<BlackboardNodeType, string> = {
+  fact: "Fact",
+  intent: "Intent",
+  hint: "Hint",
+};
+
+export const BLACKBOARD_NODE_STATUS_LABEL: Record<BlackboardNodeStatus, string> = {
+  proposed: "Proposed",
+  in_progress: "In Progress",
+  confirmed: "Confirmed",
+  rejected: "Rejected",
+  superseded: "Superseded",
+};
+
+export const BLACKBOARD_NODE_TYPE_COLOR: Record<BlackboardNodeType, SemiTagColor> = {
+  fact: "green",
+  intent: "blue",
+  hint: "amber",
+};
+
+export const BLACKBOARD_NODE_STATUS_COLOR: Record<BlackboardNodeStatus, SemiTagColor> = {
+  proposed: "grey",
+  in_progress: "blue",
+  confirmed: "green",
+  rejected: "red",
+  superseded: "amber",
+};

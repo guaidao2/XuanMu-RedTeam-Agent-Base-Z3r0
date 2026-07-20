@@ -1,8 +1,10 @@
 import { Empty, TabPane, Tabs, Tag } from "@douyinfe/semi-ui";
-import { Boxes, Bug, FileText, Network, Route } from "lucide-react";
-import { useMemo, type ReactNode } from "react";
+import { Boxes, Bug, FileText, GitBranch, Network, Route } from "lucide-react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { showApiError } from "../../shared/api/feedback";
 import { WORK_PROJECT_ASSET_TYPE } from "../../shared/api/contract";
 import type {
+  BlackboardNode,
   WorkProjectAsset,
   WorkProjectAttackPathStep,
   WorkProjectFinding,
@@ -10,6 +12,7 @@ import type {
   WorkProjectGraphSnapshot,
   WorkProjectRecords,
 } from "../../shared/api/types";
+import { getBlackboardSnapshot } from "../../shared/api/workProjects";
 import { cx } from "../../shared/lib/className";
 import { formatDateTime } from "../../shared/lib/date";
 import {
@@ -23,6 +26,12 @@ import {
   WORK_PROJECT_FINDING_STATUS_COLOR,
   WORK_PROJECT_FINDING_STATUS_LABEL,
 } from "../../shared/lib/labels";
+import {
+  BLACKBOARD_NODE_STATUS_COLOR,
+  BLACKBOARD_NODE_STATUS_LABEL,
+  BLACKBOARD_NODE_TYPE_COLOR,
+  BLACKBOARD_NODE_TYPE_LABEL,
+} from "../../shared/lib/labels";
 import { ProjectGraphCanvas } from "./ProjectGraphCanvas";
 import { filledDetailItems, type DetailItem } from "./workProjectDetails";
 import { formatWorkProjectAsset } from "./workProjectView";
@@ -33,12 +42,14 @@ type WorkProjectRecordTabsProps = {
   records: WorkProjectRecords;
   initialTab?: ProjectRecordTab;
   className?: string;
+  projectId?: number;
 };
 
 export function WorkProjectRecordTabs({
   records,
   initialTab = "assets",
   className,
+  projectId,
 }: WorkProjectRecordTabsProps) {
   return (
     <Tabs
@@ -57,6 +68,9 @@ export function WorkProjectRecordTabs({
       </TabPane>
       <TabPane tab={<TabLabel icon={<Network size={14} />} text="Graph" />} itemKey="graph">
         <GraphView assets={records.assets} graph={records.graph} />
+      </TabPane>
+      <TabPane tab={<TabLabel icon={<GitBranch size={14} />} text="Blackboard" />} itemKey="blackboard">
+        <BlackboardList projectId={projectId} />
       </TabPane>
     </Tabs>
   );
@@ -145,6 +159,62 @@ export function AttackPathList({ assets, graph }: { assets: WorkProjectAsset[]; 
 export function GraphView({ assets, graph }: { assets: WorkProjectAsset[]; graph: WorkProjectGraphSnapshot }) {
   if (!assets.length) return <RecordEmpty title="No assets to graph." />;
   return <ProjectGraphCanvas assets={assets} edges={graph.edges} />;
+}
+
+// ── BlackboardList ──
+
+function BlackboardList({ projectId }: { projectId?: number }) {
+  const [nodes, setNodes] = useState<BlackboardNode[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!projectId) {
+      setNodes([]);
+      return;
+    }
+    let canceled = false;
+    setLoading(true);
+    getBlackboardSnapshot(projectId)
+      .then((res) => {
+        if (!canceled) {
+          setNodes(res.data?.nodes ?? []);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        if (!canceled) {
+          showApiError(err);
+          setLoading(false);
+        }
+      });
+    return () => { canceled = true; };
+  }, [projectId]);
+
+  if (!projectId) return <RecordEmpty title="No project selected." />;
+  if (loading) return <div className="project-record-list"><div className="loading-hint">Loading blackboard…</div></div>;
+  if (!nodes.length) return <RecordEmpty title="No blackboard nodes yet." />;
+
+  return (
+    <div className="project-record-list">
+      {nodes.map((node) => (
+        <article key={node.id} className="project-record-row">
+          <header>
+            <strong>{node.description}</strong>
+            <div>
+              <Tag color={BLACKBOARD_NODE_TYPE_COLOR[node.node_type]}>{BLACKBOARD_NODE_TYPE_LABEL[node.node_type]}</Tag>
+              <Tag color={BLACKBOARD_NODE_STATUS_COLOR[node.status]}>{BLACKBOARD_NODE_STATUS_LABEL[node.status]}</Tag>
+            </div>
+          </header>
+          <RecordDetails items={[
+            ["Parent IDs", node.parent_ids !== "[]" ? node.parent_ids : undefined],
+            ["Creator", node.creator_agent_code || undefined],
+            ["Confidence", node.confidence < 1 ? `${Math.round(node.confidence * 100)}%` : undefined],
+            ["Updated", formatDateTime(node.updated_at)],
+          ]} />
+        </article>
+      ))}
+    </div>
+  );
 }
 
 function useAssetLabels(assets: WorkProjectAsset[]) {

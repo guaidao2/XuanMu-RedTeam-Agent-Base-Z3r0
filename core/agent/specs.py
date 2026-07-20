@@ -4,6 +4,14 @@ from agents import Tool
 
 from core.agent.constants import DEFAULT_AGENT_CODE
 from core.tools.local_shell import LOCAL_SHELL_TOOLS
+from core.tools.blackboard import (
+    create_fact,
+    create_hint,
+    create_intent,
+    read_blackboard,
+    trace_reasoning_path,
+    update_node_status,
+)
 from core.tools.knowledge import create_knowledge, find_knowledge, load_knowledge, update_knowledge
 from core.tools.work_project import (
     load_work_project_agent_summaries,
@@ -51,6 +59,15 @@ KNOWLEDGE_TOOLS = (
     ToolMount(update_knowledge),
 )
 
+BLACKBOARD_TOOLS = (
+    ToolMount(create_fact, requires_work_project=True),
+    ToolMount(create_intent, requires_work_project=True),
+    ToolMount(create_hint, requires_work_project=True),
+    ToolMount(read_blackboard, requires_work_project=True),
+    ToolMount(update_node_status, requires_work_project=True),
+    ToolMount(trace_reasoning_path, requires_work_project=True),
+)
+
 WORK_PROJECT_TOOLS = (
     ToolMount(load_work_project_metadata, requires_work_project=True),
     ToolMount(load_work_project_tasks, requires_work_project=True),
@@ -80,6 +97,7 @@ SPECIALIST_TOOLS = (
     *KNOWLEDGE_TOOLS,
     *WORK_PROJECT_TOOLS,
     *WORK_PROJECT_RECORD_TOOLS,
+    *BLACKBOARD_TOOLS,
 )
 
 AGENT_SPECS: tuple[AgentSpec, ...] = (
@@ -89,6 +107,7 @@ AGENT_SPECS: tuple[AgentSpec, ...] = (
             *KNOWLEDGE_TOOLS,
             *WORK_PROJECT_TOOLS,
             *WORK_PROJECT_RECORD_TOOLS,
+            *BLACKBOARD_TOOLS,
             ToolMount(update_work_project_tasks, requires_work_project=True),
         ),
         subagents=(

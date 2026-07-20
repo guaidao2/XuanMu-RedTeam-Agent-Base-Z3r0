@@ -35,6 +35,7 @@ from middleware.response import (
 )
 from router.agent.agents import router as agent_router
 from router.agent.sessions import router as agent_session_router
+from router.blackboard.nodes import router as blackboard_router
 from router.common.fallback import api_not_found_router
 from router.egress_proxy.proxies import router as egress_proxy_router
 from router.host.hosts import router as host_router
@@ -144,6 +145,7 @@ def create_app() -> FastAPI:
     app.include_router(work_project_router, prefix=API_PREFIX)
     app.include_router(agent_router, prefix=API_PREFIX)
     app.include_router(agent_session_router, prefix=API_PREFIX)
+    app.include_router(blackboard_router, prefix=API_PREFIX)
     app.include_router(system_config_router, prefix=API_PREFIX)
     app.include_router(api_not_found_router, prefix=API_PREFIX)
     logger.debug("api router added")

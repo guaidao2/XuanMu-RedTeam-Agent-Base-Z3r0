@@ -83,6 +83,7 @@ export function WorkProjectInfoModal({ open, projectId, initialTab = "assets", o
               <WorkProjectRecordTabs
                 records={records}
                 initialTab={initialTab}
+                projectId={projectId ?? undefined}
               />
             </section>
           </div>

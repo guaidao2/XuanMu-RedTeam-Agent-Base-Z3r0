@@ -1,0 +1,16 @@
+# Force LF line endings for shell scripts — CRLF breaks them on Linux
+*.sh text eol=lf
+
+# Python handles both, but be consistent
+*.py text eol=lf
+
+# Keep git's default behavior for other text files
+*.md text
+*.yaml text
+*.yml text
+*.json text
+*.ts text
+*.tsx text
+*.css text
+*.html text
+*.svg text

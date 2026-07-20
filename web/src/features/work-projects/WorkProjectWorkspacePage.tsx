@@ -51,7 +51,7 @@ export function WorkProjectWorkspacePage() {
       <MetricStrip metrics={metrics} />
 
       <Spin spinning={loading}>
-        <WorkProjectRecordTabs records={records} className="workspace-tabs" />
+        <WorkProjectRecordTabs records={records} projectId={validProjectId} className="workspace-tabs" />
       </Spin>
     </section>
   );

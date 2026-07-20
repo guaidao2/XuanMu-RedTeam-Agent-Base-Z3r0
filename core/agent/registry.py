@@ -21,6 +21,14 @@ from core.agent.models import build_openai_model
 from core.agent.specs import AGENT_SPECS, AgentSpec, ToolMount
 from core.delegation.subagents import build_subagent_tools
 from core.runtime.context import AgentRuntimeContext
+from core.tools.blackboard import (
+    create_fact,
+    create_hint,
+    create_intent,
+    read_blackboard,
+    trace_reasoning_path,
+    update_node_status,
+)
 from core.tools.knowledge import find_knowledge, load_knowledge
 from core.tools.sandbox import (
     execute_async_command,
@@ -137,6 +145,10 @@ class AgentRegistry:
                 and _has_work_project_tool(spec)
             ),
             include_delegation_tools=bool(spec.subagents),
+            include_blackboard_tools=(
+                graph.tool_snapshot.work_project_id is not None
+                and _has_blackboard_tool(spec)
+            ),
         )
 
         tools: list[Tool] = [
@@ -204,6 +216,16 @@ def _has_any_tool(spec: AgentSpec, tools: tuple[Tool, ...]) -> bool:
 
 def _has_work_project_tool(spec: AgentSpec) -> bool:
     return any(mount.requires_work_project for mount in spec.tools)
+
+
+_BLACKBOARD_TOOLS = (
+    create_fact, create_intent, create_hint,
+    read_blackboard, update_node_status, trace_reasoning_path,
+)
+
+
+def _has_blackboard_tool(spec: AgentSpec) -> bool:
+    return any(mount.tool in _BLACKBOARD_TOOLS for mount in spec.tools)
 
 
 def _tool_mount_available(mount: ToolMount, snapshot: AgentToolSnapshot) -> bool:

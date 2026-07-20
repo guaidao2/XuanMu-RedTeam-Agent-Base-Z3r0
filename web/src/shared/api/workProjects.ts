@@ -1,6 +1,7 @@
 import { apiDelete, apiGet, apiPatch, apiPost } from "./client";
 import { buildQuery } from "./query";
 import type {
+  BlackboardProjectPathParams,
   CancelWorkProjectPathParams,
   CancelWorkProjectResponse,
   CreateWorkProjectRequest,
@@ -8,6 +9,7 @@ import type {
   CreateWorkProjectSessionResponse,
   DeleteWorkProjectSessionResponse,
   DeleteWorkProjectResponse,
+  GetBlackboardSnapshotResponse,
   GetWorkProjectRecordSnapshotResponse,
   ListWorkProjectSessionsResponse,
   QueryWorkProjectsParams,
@@ -61,4 +63,11 @@ export function retryWorkProject(id: RetryWorkProjectPathParams["id"]) {
 
 export function deleteWorkProject(id: WorkProjectPathParams["id"]) {
   return apiDelete<DeleteWorkProjectResponse>(`${WORK_PROJECTS_PATH}/${id}`);
+}
+
+// ── Blackboard ──
+const BLACKBOARD_PATH = "/api/blackboard";
+
+export function getBlackboardSnapshot(id: BlackboardProjectPathParams["project_id"]) {
+  return apiGet<GetBlackboardSnapshotResponse>(`${BLACKBOARD_PATH}/${id}`);
 }

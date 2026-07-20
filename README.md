@@ -160,6 +160,25 @@ WorkProject is the durable evidence boundary for professional review. Assets are
 
 This model keeps evidence independent from model context. Agent summaries can remain compact while durable facts stay queryable, visualizable, and reviewable.
 
+## Blackboard
+
+The Blackboard is a Cairn-inspired shared reasoning graph that enables **Stigmergy** — agents coordinate through a shared board rather than by talking over each other. It records three node types:
+
+| Type | Meaning | Lifecycle |
+| --- | --- | --- |
+| **Fact** | A confirmed, objective finding | proposed → confirmed / rejected |
+| **Intent** | A declared exploration direction | proposed → in_progress → confirmed / rejected |
+| **Hint** | Human or agent guidance | persisted |
+
+### Agent Workflow
+
+1. **Read** the blackboard to see current state
+2. **Write an Intent** before starting any exploration
+3. **Write a Fact** after confirming results, linked to its parent Intent
+4. **Update status** — mark dead ends as `rejected` to avoid repeated work
+
+The Blackboard layer complements the existing evidence plane (Asset / Finding / GraphEdge): evidence records "what was found", while the blackboard records "why we looked, what we found, what's next".
+
 ## Execution
 
 Commands are executed directly on the host machine via Python asyncio subprocess (no Docker required). The execution layer supports:
@@ -180,6 +199,7 @@ Commands are executed directly on the host machine via Python asyncio subprocess
 | Local execution | Commands run directly on the host machine via subprocess, no Docker required. |
 | Knowledge base | Structured security methodology documents that agents can reference during work. |
 | Operator workbench | The frontend combines chat, project records, graph review, and command execution into one workflow. |
+| Shared Blackboard | Cairn-style Fact-Intent reasoning graph for agent stigmergy coordination and traceable reasoning. |
 
 ## Expert Team
 
@@ -202,6 +222,12 @@ handler/     HTTP and WebSocket request handling
 model/       SQLModel database models
 schema/      Pydantic API contracts
 web/         React workbench and landing page
+blackboard/  Shared reasoning graph (Blackboard) module
+  model/     SQLModel database models
+  schema/    Pydantic API contracts
+  service/   Domain services
+  handler/   HTTP handling
+  router/    FastAPI routes
 .xuanmu/     Runtime configuration, agent prompts, knowledge files, logs
 ```
 

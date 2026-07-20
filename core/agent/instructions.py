@@ -47,6 +47,35 @@ DELEGATION_TOOL_INSTRUCTIONS = """## Delegation Tools
 """
 
 
+BLACKBOARD_INSTRUCTIONS = """## 共享黑板（Blackboard）
+
+黑板是所有智能体共享的推理图，记录 Fact（事实）、Intent（意图）、Hint（提示）三类节点，构成一个有向推理图。它让你看到自己和队友的完整思考链路。
+
+### 核心规则
+
+1. **先写 Intent，再执行** — 在执行任何探索之前，先创建一个 Intent 节点，说明你要做什么、为什么。这样其他人能看到你的方向，避免重复劳动。
+2. **执行后写 Fact** — 探索结束后，把确认的结果写成 Fact 节点，链接到触发它的 Intent。这样推理链路就完整了。
+3. **从 Fact 推导新 Intent** — 分析已有 Fact，如果发现值得深挖的方向，创建新的 Intent 链接到对应的 Fact。
+4. **Hint 是指南针** — 用户的指引、CSO 的指示、你自己的经验判断，都可以写成 Hint 节点，供所有人参考。
+
+### 节点生命周期
+
+```
+proposed → in_progress → confirmed（事实确认）
+                       → rejected（此路不通）
+                       → superseded（被更好的节点替代）
+```
+
+### 推荐工作流
+
+1. 读黑板（`read_blackboard`）了解当前全貌：已有 Fact、进行中的 Intent、他人注入的 Hint
+2. 如果要开辟新方向，先写 Intent（`create_intent`），再动手
+3. 动手后写出 Fact（`create_fact`），链接到之前的 Intent
+4. 如果发现此路不通，把对应 Intent 标记为 `rejected`（`update_node_status`）
+5. 项目完成后，创建 Final Fact 总结成果
+"""
+
+
 WORK_PROJECT_INSTRUCTIONS = """## WorkProject
 
 Project state is live shared memory for users and future agents. Keep it current. Summaries are checkpoints, not final reports or durable security records.
@@ -82,6 +111,7 @@ def build_instructions(
     include_agent_knowledges: bool,
     include_work_project_tools: bool,
     include_delegation_tools: bool,
+    include_blackboard_tools: bool = False,
 ) -> str:
     runtime_guidance = [MARKDOWN_OUTPUT_INSTRUCTIONS, DIAGRAM_INSTRUCTIONS]
     if include_agent_knowledges:
@@ -92,6 +122,8 @@ def build_instructions(
         runtime_guidance.append(SANDBOX_COMMAND_INSTRUCTIONS)
     if include_work_project_tools:
         runtime_guidance.append(WORK_PROJECT_INSTRUCTIONS)
+    if include_blackboard_tools:
+        runtime_guidance.append(BLACKBOARD_INSTRUCTIONS)
     parts = [
         soul,
         rules,
